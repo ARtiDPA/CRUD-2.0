@@ -1,22 +1,16 @@
-from sqlalchemy import create_engine
-import sqlalchemy
+from sqlalchemy.orm import declarative_base, mapped_column, Mapped
+from sqlalchemy import String, Integer, create_engine
 
 
 engine = create_engine("postgresql+psycopg2://postgres:password@localhost:5432/postgres")
-
-connection = engine.connect()
-
-
-metadate = sqlalchemy.MetaData()
+Base = declarative_base()
 
 
-users = sqlalchemy.Table("user", metadate,
-                        sqlalchemy.Column("id", sqlalchemy.Integer),
-                        sqlalchemy.Column("name", sqlalchemy.Text),
-                        sqlalchemy.Column("first_name", sqlalchemy.Text),
-                        sqlalchemy.Column("date", sqlalchemy.Text),
-                        sqlalchemy.Column("Sity", sqlalchemy.Text),
-                        sqlalchemy.Column("gender", sqlalchemy.Text),
-                        sqlalchemy.Column("number", sqlalchemy.Text),
-                        sqlalchemy.Column("mail", sqlalchemy.Text)
-                        )
+class user(Base):
+    __tablename__ = "user"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(String(32))
+    surname: Mapped[str] = mapped_column(String(32))
+    age: Mapped[int] = mapped_column(Integer)
+    gender: Mapped[str] = mapped_column(String(10))
