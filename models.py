@@ -1,6 +1,6 @@
-from sqlalchemy.orm import declarative_base, mapped_column, Mapped
-from sqlalchemy import String, Integer, create_engine
-
+from sqlalchemy.orm import declarative_base
+from sqlalchemy import String, Integer, create_engine, Column
+import database
 
 engine = create_engine("postgresql+psycopg2://postgres:password@localhost:5432/postgres")
 Base = declarative_base()
@@ -8,9 +8,12 @@ Base = declarative_base()
 
 class user(Base):
     __tablename__ = "user"
+    id = Column(Integer, primary_key=True)
+    name = Column(String(32), nullable=False)
+    suename = Column(String(32), nullable=False)
+    age = Column(Integer, nullable=False)
+    gender = Column(String(10), nullable=False)
 
-    id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(String(32))
-    surname: Mapped[str] = mapped_column(String(32))
-    age: Mapped[int] = mapped_column(Integer)
-    gender: Mapped[str] = mapped_column(String(10))
+
+def create_tables():
+    Base.metadata.create_all(database.engine)
