@@ -3,8 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add</title>
+    <title>Read</title>
 </head>
 <body>
+    <h1>Чтение</h1>
+    <form method="post">
+        <h2>Введите индекс строки для вывода</h2>
+        <h3>Для того чтобы вевсти все, напишите 0</h3>
+        <input type="number" name="index">
+        <input type="submit">
+    </form>
+    <h3>Результат</h3>
+    {% for element in elements %}
+    <li>{{element}}</li>
+    {% endfor %}
 </body>
 </html>

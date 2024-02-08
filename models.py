@@ -1,12 +1,8 @@
-from sqlalchemy.orm import declarative_base
-from sqlalchemy import String, Integer, create_engine, Column
+from sqlalchemy import String, Integer, Column
 import database
 
-engine = create_engine("postgresql+psycopg2://postgres:password@localhost:5432/postgres")
-Base = declarative_base()
 
-
-class user(Base):
+class user(database.Base):
     __tablename__ = "user"
     id = Column(Integer, primary_key=True)
     name = Column(String(32), nullable=False)
@@ -16,4 +12,4 @@ class user(Base):
 
 
 def create_tables():
-    Base.metadata.create_all(database.engine)
+    database.Base.metadata.create_all(database.engine)
