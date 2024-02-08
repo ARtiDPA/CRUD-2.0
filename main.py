@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from sqlalchemy import insert, select, delete
+from sqlalchemy import insert, select, delete, update
 from database import connect
 from models import user
 
@@ -32,6 +32,12 @@ def read_select_all():
     return elements
 
 
+def update_fun(index, name, surname, age, gender):
+    stmt = update(user).where(user.id == index).values(name=name, suename=surname, age=age, gender=gender)
+    connect.execute(stmt)
+    connect.commit()
+
+
 @app.route("/add", methods=["POST", "GET"])
 def add_dec():
     if request.method == "POST":
@@ -59,7 +65,7 @@ def read_dec():
             elements = read_select(index)
             return render_template("read.html", elements=elements)
     else:
-        return render_template("read.html")    
+        return render_template("read.html")
 
 
 @app.route("/delete", methods=["POST", "GET", "DELETE"])
@@ -72,13 +78,22 @@ def delete_dec():
         else:
             return "Нет строки с id 0"
     else:
-        return render_template("delete.html")    
+        return render_template("delete.html")
 
 
 @app.route("/update", methods=["POST", "GET", "PUT"])
 def update_dec():
     if request.method == "POST":
-        id = request.form["index"]
+        index = request.form["index"]
+        name = request.form["name"]
+        surname = request.form["surname"]
+        age = request.form["age"]
+        gender = request.form["gender"]
+        if name != "" and surname != "" and age != "" and gender != "":
+            update_fun(index, name, surname, age, gender)
+            return "Изменения внесены"
+    else:
+        return render_template("update.html")
 
 
 if __name__ == "__main__":
