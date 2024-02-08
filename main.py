@@ -1,9 +1,15 @@
 from flask import Flask, render_template, request
-from sqlalchemy import insert, select
+from sqlalchemy import insert, select, delete
 from database import connect
 from models import user
 
 app = Flask(__name__)
+
+
+def delete_fun(index):
+    stmt = delete(user).where(user.id == index)
+    connect.execute(stmt)
+    connect.commit()
 
 
 def add_insert(name, surname, age, gender):
@@ -27,7 +33,7 @@ def read_select_all():
 
 
 @app.route("/add", methods=["POST", "GET"])
-def add():
+def add_dec():
     if request.method == "POST":
         name = request.form["name"]
         surname = request.form["surname"]
@@ -43,7 +49,7 @@ def add():
 
 
 @app.route("/read", methods=["POST", "GET"])
-def read():
+def read_dec():
     if request.method == "POST":
         index = request.form["index"]
         if int(index) == 0:
@@ -54,6 +60,25 @@ def read():
             return render_template("read.html", elements=elements)
     else:
         return render_template("read.html")    
+
+
+@app.route("/delete", methods=["POST", "GET", "DELETE"])
+def delete_dec():
+    if request.method == "POST":
+        id = request.form["index"]
+        if id != 0:
+            delete_fun(id)
+            return f"Строка с id: {id}, удалилась"
+        else:
+            return "Нет строки с id 0"
+    else:
+        return render_template("delete.html")    
+
+
+@app.route("/update", methods=["POST", "GET", "PUT"])
+def update_dec():
+    if request.method == "POST":
+        id = request.form["index"]
 
 
 if __name__ == "__main__":
