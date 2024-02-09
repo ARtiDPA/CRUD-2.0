@@ -13,7 +13,7 @@ def delete_fun(index):
 
 
 def add_insert(name, surname, age, gender):
-    stmt = insert(user).values(name=name, suename=surname, age=age, gender=gender)
+    stmt = insert(user).values(name=name, surname=surname, age=age, gender=gender)
     connect.execute(stmt)
     connect.commit()
 
