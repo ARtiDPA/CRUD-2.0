@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 from sqlalchemy import insert, select, delete, update
 from database import connect
-from models import user
+from models import user, create_tables
 
 app = Flask(__name__)
 
@@ -97,4 +97,5 @@ def update_dec():
 
 
 if __name__ == "__main__":
+    create_tables()
     app.run()
