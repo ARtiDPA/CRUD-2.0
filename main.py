@@ -45,7 +45,8 @@ def add_dec():
         surname = request.form["surname"]
         age = request.form["age"]
         gender = request.form["gender"]
-        if name != "" and surname != "" and age != "" and gender != "":
+        elements = [name, surname, age, gender]
+        if all(elements):
             add_insert(name, surname, age, gender)
             return "Успешно добавленно"
         else:
@@ -89,7 +90,8 @@ def update_dec():
         surname = request.form["surname"]
         age = request.form["age"]
         gender = request.form["gender"]
-        if name != "" and surname != "" and age != "" and gender != "":
+        elements = [name, surname, age, gender]
+        if all(elements):
             update_fun(index, name, surname, age, gender)
             return "Изменения внесены"
     else:
